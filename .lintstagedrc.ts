@@ -11,3 +11,7 @@ export default {
   "*": "prettier --write --ignore-unknown",
   "*.{js,jsx,ts,tsx}": [buildEslintCommand],
 };
+
+
+
+
