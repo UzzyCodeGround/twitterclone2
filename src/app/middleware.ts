@@ -1,17 +1,24 @@
-import { clerkMiddleware } from "@clerk/nextjs/server";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-export default clerkMiddleware();
+const isPublicRoute = createRouteMatcher(["/", "/sign-in", "/sign-up"]);
+
+export default clerkMiddleware(async (auth, req) => {
+    const url = req.nextUrl.pathname;
+
+    /**
+     * If the user is not logged in protect it from dashboard page
+     */
+    if (!isPublicRoute(req) && url.startsWith("/dashboard")) {
+        (await auth()).redirectToSignIn();
+    }
+
+});
 
 export const config = {
-  publicRoutes: [
-    "/((?!.+\\.[\\w]+$|_next).*)", // Match all routes except static files and Next.js internals
-    "/", 
-    "/(api|trpc)(.*)",
-    "/sign-in",
-    "/sign-up",
-  ],
+    matcher: [
+        // Skip Next.js internals and all static files, unless found in search params
+        '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+        // Always run for API routes
+        '/(api|trpc)(.*)',
+    ],
 };
-
-
-console.log("CLERK_SECRET_KEY:", process.env.CLERK_SECRET_KEY);
-console.log("NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:", process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
