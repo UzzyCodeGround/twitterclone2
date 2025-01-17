@@ -1,10 +1,12 @@
-// src/app/(auth)/sign-in/page.tsx
-export default function SignInPage() {
+function SignInPage() {
     return (
-      <div>
-        <h1>Sign In</h1>
-        <p>Please sign in to continue.</p>
-        {/* Add your Clerk sign-in component here */}
-      </div>
-    );
-  }
+    <div className="flex flex-col items-start justify-center gap-y-8">
+    <h1 className="text-6xl">Happening now</h1>
+    <h2 className="text-4xl">Join today.</h2>
+    </div>
+
+);
+}
+export default SignInPage;
+
+
