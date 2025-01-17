@@ -20,38 +20,26 @@ export const metadata: Metadata = {
 };
 
 // 
-const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  return (
-    <html lang="en" className={`${GeistSans.variable}`}>
-      <body>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
-      </body>
-    </html>
-  );
-};
-
-
-
-
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" className={`${GeistSans.variable}`}>
         <body>
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-          {children}
+          <TRPCReactProvider>
+            <SignedOut>
+              <SignInButton />
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+            {children}
+          </TRPCReactProvider>
         </body>
       </html>
     </ClerkProvider>
-  )
+  );
 }
-
